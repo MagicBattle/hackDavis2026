@@ -1,10 +1,16 @@
+# Python packages
 anthropic
 python-dotenv
 opencv-python
 
+# Python setup (Mac)
+python3 -m venv .venv
+source .venv/bin/activate
+pip install anthropic python-dotenv opencv-python
 
-python -m venv .venv
-.venv\Scripts\activate
-pip install anthropic
-pip install python-dotenv
-pip install opencv-python
+# npm packages
+react-webcam
+react-router-dom
+
+# npm setup
+npm install react-webcam react-router-dom
