@@ -11,8 +11,11 @@ load_dotenv(override=True)
 key = os.environ.get('claude_key')
 client = anthropic.Anthropic(api_key=key)
 
+base_path = os.path.dirname(os.path.abspath(__file__))
+image_path = os.path.join(base_path, "frieren.png")
+
 # Upload the image file
-with open("test.png", "rb") as image_file:
+with open(image_path, "rb") as image_file:
     # Read file, encode to base64, and decode to utf-8 string
     base64_image = base64.b64encode(image_file.read()).decode('utf-8')
 
@@ -38,4 +41,4 @@ response = client.messages.create(
     ],
 )
 
-print(response)
+print(response.content[0].text)
