@@ -12,31 +12,24 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173/"],  # Vite React dev server
+    allow_origins=["*"],  # Vite React dev server
     allow_credentials=True,
-    allow_methods=[""],
-    allow_headers=[""],
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 class ImagePayload(BaseModel):
     image: str
-    filename: str
 
-@app.get("/save-image")
+@app.post("/save-image")
 def save_image(payload: ImagePayload):
     os.makedirs("labels", exist_ok=True)
 
     header, encoded = payload.image.split(",", 1)
     image_bytes = base64.b64decode(encoded)
-
-    file_path = os.path.join("labels", payload.filename)
-
-    with open(file_path, "wb") as f:
-        f.write(image_bytes)
-
+    print(image_bytes)
     return {
         "message": "Image saved",
-        "path": file_path,
     }
 
 def query(image_name):

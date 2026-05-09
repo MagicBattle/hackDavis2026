@@ -3,6 +3,7 @@ import React from 'react'
 import Webcam from 'react-webcam'
 
 async function sendImage(imageSrc) {
+  console.log(imageSrc);
   const response = await fetch("http://localhost:8000/save-image", {
     method: "POST",
     headers: {
@@ -13,8 +14,6 @@ async function sendImage(imageSrc) {
     }),
   });
 
-  console.log("sent image");
-  console.log(imageSrc);
 }
 
 function Scan() {
@@ -22,8 +21,9 @@ function Scan() {
   const [imageSrc, setImageSrc] = useState(null);
   const capture = React.useCallback(
     () => {
-      setImageSrc(webcamRef.current.getScreenshot());
-      sendImage(imageSrc);
+      const img = webcamRef.current.getScreenshot()
+      setImageSrc(img);
+      sendImage(img);
     },
     [webcamRef]
   );
