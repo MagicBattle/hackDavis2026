@@ -1,4 +1,4 @@
-import {Camera, Utensils, Search, Eye} from "lucide-react"
+import {CircleCheck, ScanEye, MoveRight, ScanSearch,Camera, Utensils, Search, Eye} from "lucide-react"
 import { Link } from 'react-router-dom'
 import Header from './Header'
 import Footer from './Footer'
@@ -36,18 +36,21 @@ function Home() {
 
       <main className="flex flex-col gap-8 px-6 py-8 grow">
         <div className="bg-purple-100 rounded-2xl px-8 py-10 shadow-sm flex flex-col items-center text-center gap-3">
-          <span className="text-4xl">🔍</span>
+          <span ><Search size={70} className="text-purple-500"/></span>
           <h1 className="text-3xl font-black text-indigo-900">Know what's in your food</h1>
           <p className="text-slate-500 max-w-md">
             Flip over the label, point your camera, and Flipit breaks down every ingredient and flags every
             harmful additives brands hide in plain sight.
           </p>
           <div className="flex gap-6 mt-2 text-sm text-slate-600">
-            <span>📸 Scan a label</span>
-            <span>→</span>
-            <span>🧪 AI analyzes ingredients</span>
-            <span>→</span>
-            <span>✅ Get a safety grade</span>
+            <span><ScanSearch size={25} className="text-purple-500"/></span>
+            <span>Scan a label</span>
+            <span><MoveRight size={25} className="text-purple-500"/></span>
+            <span><ScanEye size={25} className="text-purple-500"/></span>
+            <span> Analyze ingredients</span>
+            <span><MoveRight size={25} className="text-purple-500"/></span>
+            <span><CircleCheck size={25} className="text-purple-500"/></span>
+            <span>Get a safety grade</span>
           </div>
         </div>
 
