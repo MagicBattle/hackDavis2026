@@ -53,9 +53,21 @@ function Home() {
         </div>
 
         <div className="flex flex-row flex-wrap gap-2">
-          <Facts paragraph="Red 40" />
-          <Facts paragraph="Yellow 5" />
-          <Facts paragraph="Blue 1" />
+          <Facts paragraph="Red 40" color="text-red-700 border-red-300" />
+          <Facts paragraph="Yellow 5" color="text-yellow-600 border-yellow-300" />
+          <Facts paragraph="Blue 1" color="text-blue-700 border-blue-300" />
+          <Facts paragraph="High Fructose Corn Syrup" color="text-orange-700 border-orange-300" />
+          <Facts paragraph="BHA / BHT" color="text-purple-700 border-purple-300" />
+          <Facts paragraph="Sodium Nitrate" color="text-pink-700 border-pink-300" />
+          <Facts paragraph="Trans Fats" color="text-red-800 border-red-400" />
+          <Facts paragraph="Carrageenan" color="text-teal-700 border-teal-300" />
+          <Facts paragraph="Aspartame" color="text-indigo-700 border-indigo-300" />
+          <Facts paragraph="Propyl Gallate" color="text-amber-700 border-amber-300" />
+          <Facts paragraph="Sodium Benzoate" color="text-rose-700 border-rose-300" />
+          <Facts paragraph="Potassium Bromate" color="text-cyan-700 border-cyan-300" />
+          <Facts paragraph="TBHQ" color="text-lime-700 border-lime-300" />
+          <Facts paragraph="Acesulfame K" color="text-violet-700 border-violet-300" />
+          <Facts paragraph="Artificial Flavors" color="text-slate-700 border-slate-300" />
         </div>
       </main>
 
