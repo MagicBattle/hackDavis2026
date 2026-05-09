@@ -3,6 +3,30 @@ import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import heroImg from './assets/hero.png'
 import './App.css'
+import React from "react"
+import Webcam from "react-webcam";
+
+const WebcamComponent = () => {
+  const webcamRef = React.useRef(null);
+  const [imageSrc, setImageSrc] = useState(null)
+  const capture = React.useCallback(
+    () => {
+      setImageSrc(webcamRef.current.getScreenshot())
+    },
+    [webcamRef]
+  );
+
+
+return (<>
+          <Webcam 
+            ref = {webcamRef}
+            screenshotFormat="image/jpeg"/>
+            <button onClick = {capture}>Take photo</button>
+            {imageSrc && (<img src={imageSrc} />)}
+            </>
+            );
+          };
+
 
 function App() {
   const [count, setCount] = useState(0)
@@ -29,6 +53,7 @@ function App() {
           Count is {count}
         </button>
       </section>
+      {WebcamComponent()}
 
       <div className="ticks"></div>
 
