@@ -1,9 +1,45 @@
+#uvicorn get_text:app --reload
+
 import anthropic
 import os
 import time
 from dotenv import load_dotenv
 import base64
 import cv2
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
+
+app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173/"],  # Vite React dev server
+    allow_credentials=True,
+    allow_methods=[""],
+    allow_headers=[""],
+)
+
+class ImagePayload(BaseModel):
+    image: str
+    filename: str
+
+@app.get("/save-image")
+def save_image(payload: ImagePayload):
+    os.makedirs("labels", exist_ok=True)
+
+    header, encoded = payload.image.split(",", 1)
+    image_bytes = base64.b64decode(encoded)
+
+    file_path = os.path.join("labels", payload.filename)
+
+    with open(file_path, "wb") as f:
+        f.write(image_bytes)
+
+    return {
+        "message": "Image saved",
+        "path": file_path,
+    }
 
 def query(image_name):
     base_path = os.path.dirname(os.path.abspath(__file__))
@@ -43,19 +79,6 @@ load_dotenv(override=True)
 key = os.environ.get('claude_key')
 client = anthropic.Anthropic(api_key=key)
 
-cap = None
-for index in range(3):
-    cap = cv2.VideoCapture(index, cv2.CAP_AVFOUNDATION)
-    if cap.isOpened():
-        print(f"Camera opened at index {index}")
-        break
-if not cap or not cap.isOpened():
-    print("No camera found.")
-    exit(1)
-
-time.sleep(2) # Give the camera time to warm up before reading
-count = 0
-
 PROMPT = """
 First check if the image provided contains a food label. If it does not return ERROR.
 Else do the following.
@@ -87,26 +110,3 @@ low: minor concern (natural flavors, carrageenan)
 base_path = os.path.dirname(os.path.abspath(__file__))
 labels_path = os.path.join(base_path, 'labels')
 os.makedirs(labels_path, exist_ok=True)
-
-while True:
-    ret, frame = cap.read()
-    if not ret:
-        print("Failed to read from camera")
-        break
-    cv2.imshow('Camera Feed', frame)
-
-    # Checks the input of the user
-    input = cv2.waitKey(1) & 0xFF
-
-    # If space save image else if q quit
-    if input == ord(' '):
-        image_file = os.path.join(labels_path, f'{count}.jpg')
-        cv2.imwrite(image_file, frame)
-        image = os.path.join('labels', f'{count}.jpg')
-        query(image)
-        count = count + 1
-    elif input == ord('q'):
-        break # Exit after taking the photo
-
-cap.release()
-cv2.destroyAllWindows()
