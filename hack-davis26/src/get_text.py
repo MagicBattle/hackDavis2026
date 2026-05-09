@@ -1,5 +1,6 @@
 import anthropic
 import os
+import time
 from dotenv import load_dotenv
 import base64
 import cv2
@@ -42,7 +43,17 @@ load_dotenv(override=True)
 key = os.environ.get('claude_key')
 client = anthropic.Anthropic(api_key=key)
 
-cap = cv2.VideoCapture(0) # Open default camera
+cap = None
+for index in range(3):
+    cap = cv2.VideoCapture(index, cv2.CAP_AVFOUNDATION)
+    if cap.isOpened():
+        print(f"Camera opened at index {index}")
+        break
+if not cap or not cap.isOpened():
+    print("No camera found.")
+    exit(1)
+
+time.sleep(2) # Give the camera time to warm up before reading
 count = 0
 
 PROMPT = """
@@ -73,17 +84,25 @@ medium: worth limiting (seed oils, excess sodium)
 low: minor concern (natural flavors, carrageenan)
 """
 
+base_path = os.path.dirname(os.path.abspath(__file__))
+labels_path = os.path.join(base_path, 'labels')
+os.makedirs(labels_path, exist_ok=True)
+
 while True:
     ret, frame = cap.read()
+    if not ret:
+        print("Failed to read from camera")
+        break
     cv2.imshow('Camera Feed', frame)
-    
-    # Chcks the input of the user
+
+    # Checks the input of the user
     input = cv2.waitKey(1) & 0xFF
 
     # If space save image else if q quit
     if input == ord(' '):
-        cv2.imwrite(rf'hack-davis26\src\labels\{count}.jpg', frame)
-        image = rf'labels\{count}.jpg'
+        image_file = os.path.join(labels_path, f'{count}.jpg')
+        cv2.imwrite(image_file, frame)
+        image = os.path.join('labels', f'{count}.jpg')
         query(image)
         count = count + 1
     elif input == ord('q'):

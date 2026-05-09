@@ -28,3 +28,11 @@ dist-ssr
 # Ignore .env files
 .env
 *.env
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Captured label images
+src/labels/
