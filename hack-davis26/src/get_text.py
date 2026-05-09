@@ -2,10 +2,8 @@
 
 import anthropic
 import os
-import time
 from dotenv import load_dotenv
 import base64
-import cv2
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
