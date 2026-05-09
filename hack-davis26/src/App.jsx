@@ -2,7 +2,6 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import heroImg from './assets/hero.png'
-import './App.css'
 import React from "react"
 import Webcam from "react-webcam";
 
@@ -16,16 +15,15 @@ const WebcamComponent = () => {
     [webcamRef]
   );
 
-
-return (<>
-          <Webcam 
-            ref = {webcamRef}
-            screenshotFormat="image/jpeg"/>
-            <button onClick = {capture}>Take photo</button>
-            {imageSrc && (<img src={imageSrc} />)}
-            </>
-            );
-          };
+  return (<>
+            <Webcam 
+              ref = {webcamRef}
+              screenshotFormat="image/jpeg"/>
+              <button onClick = {capture}>Take photo</button>
+              {imageSrc && (<img src={imageSrc} />)}
+              </>
+              );
+            };
 
 
 function App() {
