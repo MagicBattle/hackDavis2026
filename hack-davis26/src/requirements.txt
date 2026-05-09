@@ -1,8 +1,10 @@
 anthropic
 python-dotenv
+opencv-python
 
 
 python -m venv .venv
 .venv\Scripts\activate
 pip install anthropic
 pip install python-dotenv
+pip install opencv-python
