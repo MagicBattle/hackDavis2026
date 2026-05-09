@@ -26,20 +26,14 @@ def save_image(payload: ImagePayload):
     os.makedirs("labels", exist_ok=True)
 
     header, encoded = payload.image.split(",", 1)
-    image_bytes = base64.b64decode(encoded)
-    print(image_bytes)
+    
+    query(encoded)
+
     return {
         "message": "Image saved",
     }
 
-def query(image_name):
-    base_path = os.path.dirname(os.path.abspath(__file__))
-    image_path = os.path.join(base_path, image_name)
-
-    with open(image_path, "rb") as image_file:
-        # Read file, encode to base64, and decode to utf-8 string
-        base64_image = base64.b64encode(image_file.read()).decode('utf-8')
-
+def query(image_data):
     response = client.messages.create(
         model="claude-opus-4-6",
         max_tokens=1024,
@@ -52,7 +46,7 @@ def query(image_name):
                         "source": {
                             "type": "base64",
                             "media_type": "image/jpeg",
-                            "data": base64_image,
+                            "data": image_data,
                         },
                     },
                     {"type": "text", 
