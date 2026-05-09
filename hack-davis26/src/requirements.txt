@@ -11,6 +11,7 @@ pip install anthropic python-dotenv opencv-python
 # npm packages
 react-webcam
 react-router-dom
+lucide-react
 
 # npm setup
-npm install react-webcam react-router-dom
+npm install react-webcam react-router-dom lucide-react
