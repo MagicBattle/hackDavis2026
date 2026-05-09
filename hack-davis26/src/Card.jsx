@@ -1,13 +1,30 @@
-function Card ({img, title, description}) {
+function Card ({img, title, description, bgColor, iconColor}) {
     return (
-        <div className="flex flex-col items-center gap-3 p-6 border border-gray-200 rounded-xl shadow-sm w-full">
-            <div className="text-indigo-600">
-                {img}
-            </div>
-            <h2 className="text-lg font-semibold text-gray-800">{title}</h2>
-            <p className="text-sm text-gray-500 text-center">{description}</p>
-        </div>
-    );
+    <div
+      className={`
+        flex items-center gap-5
+        rounded-[28px] border border-purple-100
+        px-6 py-6 shadow-sm
+        transition hover:-translate-y-1 hover:shadow-md
+        ${bgColor}
+      `}
+    >
+      <div
+        className={`
+          flex h-14 w-14 shrink-0 items-center justify-center
+          rounded-2xl text-white
+          ${iconColor}
+        `}
+      >
+        {img}
+      </div>
+
+      <div>
+        <h2 className="text-xl font-bold text-slate-800">{title}</h2>
+        <p className="mt-2 text-base text-slate-500">{description}</p>
+      </div>
+    </div>
+  );
 }
 
 export default Card;
