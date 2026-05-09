@@ -25,23 +25,34 @@ function Home() {
   ];
 
   return (
-    <>
+    <div className="min-h-screen flex flex-col">
       <Header />
-      <Link to="/scan">Scan a Label</Link>
-      {cardData.map((card) => (
-      <Card
-        img={card.img}
-        title={card.title}
-        description={card.description}
-      />
-    ))} 
-          <div className="facts-container">
-        <Facts paragraph="Red 40" />
-        <Facts paragraph="Yellow 5" />
-        <Facts paragraph="Blue 1" />
-      </div>
+
+      <main className="flex flex-col gap-8 px-6 py-8 grow">
+        <Link to="/scan" className="self-center bg-indigo-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-indigo-700">
+          Scan a Label
+        </Link>
+
+        <div className="flex flex-col gap-4">
+          {cardData.map((card) => (
+            <Card
+              key={card.title}
+              img={card.img}
+              title={card.title}
+              description={card.description}
+            />
+          ))}
+        </div>
+
+        <div className="flex flex-row flex-wrap gap-2">
+          <Facts paragraph="Red 40" />
+          <Facts paragraph="Yellow 5" />
+          <Facts paragraph="Blue 1" />
+        </div>
+      </main>
+
       <Footer />
-    </>
+    </div>
   );
 }
 

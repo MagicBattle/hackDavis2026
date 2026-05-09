@@ -1,9 +1,7 @@
-import "./Facts.css";
-
 function Facts({ paragraph }){
     return(
-        <div className="fact-card">
-            <h1>{paragraph}</h1>
+        <div className="border border-gray-300 rounded-lg px-4 py-2 text-sm text-gray-700">
+            {paragraph}
         </div>
     );
 }

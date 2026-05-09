@@ -29,13 +29,20 @@ function Scan() {
   );
 
   return (
-    <>
+    <div className="min-h-screen flex flex-col items-center gap-6 px-6 py-8">
       <Webcam
         ref={webcamRef}
-        screenshotFormat="image/jpeg" />
-      <button onClick={capture}>Take photo</button>
-      {imageSrc && (<img src={imageSrc} />)}
-    </>
+        screenshotFormat="image/jpeg"
+        className="rounded-xl border border-gray-300 shadow"
+      />
+      <button
+        onClick={capture}
+        className="bg-indigo-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-indigo-700"
+      >
+        Take photo
+      </button>
+      {imageSrc && <img src={imageSrc} className="rounded-xl border border-gray-200 shadow" />}
+    </div>
   );
 }
 
