@@ -11,21 +11,21 @@ function Home() {
       img: <Utensils size={30}/>,
       title: "Calorie Breakdown",
       description: "See exactly how many calories per serving",
-      bgColor: "bg-purple-50",
+      bgColor: "bg-purple-100",
       iconColor: "bg-purple-300",
     },
     {
       img: <Search size={30}/>,
       title: "Ingredient Analysis",
       description: "Plain-English explainations of complex names",
-      bgColor: "bg-purple-50",
+      bgColor: "bg-purple-100",
       iconColor: "bg-blue-300",
     },
     {
       img: <Eye size={30}/>,
       title: "Hidden Activities",
       description: "We highlight what brands don't want you to see",
-      bgColor: "bg-purple-50",
+      bgColor: "bg-purple-100",
       iconColor: "bg-red-300",
     }
   ];
@@ -35,7 +35,7 @@ function Home() {
       <Header />
 
       <main className="flex flex-col gap-8 px-6 py-8 grow">
-        <div className="bg-purple-50 rounded-2xl px-8 py-10 shadow-sm flex flex-col items-center text-center gap-3">
+        <div className="bg-purple-100 rounded-2xl px-8 py-10 shadow-sm flex flex-col items-center text-center gap-3">
           <span className="text-4xl">🔍</span>
           <h1 className="text-3xl font-black text-indigo-900">Know what's in your food</h1>
           <p className="text-slate-500 max-w-md">
@@ -52,7 +52,7 @@ function Home() {
         </div>
 
         <div className="flex justify-center">
-          <Link to="/scan" className="group relative flex h-50 w-50 items-center justify-center rounded-[32px] bg-purple-50 transition hover:scale-105 hover:shadow-lg">
+          <Link to="/scan" className="group relative flex h-50 w-50 items-center justify-center rounded-[32px] bg-purple-100 transition hover:scale-105 hover:shadow-lg">
             <Camera size={50} className="text-purple-500 transition group-hover:text-purple-400" />
           </Link>
         </div>
