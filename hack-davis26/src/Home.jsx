@@ -10,17 +10,23 @@ function Home() {
     {
       img: <Utensils size={30}/>,
       title: "Calorie Breakdown",
-      description: "See exactly how many calories per serving"
+      description: "See exactly how many calories per serving",
+      bgColor: "bg-purple-50",
+      iconColor: "bg-purple-300",
     },
     {
       img: <Search size={30}/>,
       title: "Ingredient Analysis",
-      description: "Plain-English explainations of complex names"
+      description: "Plain-English explainations of complex names",
+      bgColor: "bg-purple-50",
+      iconColor: "bg-blue-300",
     },
     {
       img: <Eye size={30}/>,
       title: "Hidden Activities",
-      description: "We highlight what brands don't want you to see"
+      description: "We highlight what brands don't want you to see",
+      bgColor: "bg-purple-50",
+      iconColor: "bg-red-300",
     }
   ];
 
@@ -40,6 +46,8 @@ function Home() {
               img={card.img}
               title={card.title}
               description={card.description}
+              bgColor={card.bgColor}
+              iconColor={card.iconColor}
             />
           ))}
         </div>
