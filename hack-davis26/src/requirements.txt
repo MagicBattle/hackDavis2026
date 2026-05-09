@@ -1,2 +1,8 @@
 anthropic
 python-dotenv
+
+
+python -m venv .venv
+.venv\Scripts\activate
+pip install anthropic
+pip install python-dotenv
