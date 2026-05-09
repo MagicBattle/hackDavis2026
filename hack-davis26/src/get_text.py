@@ -27,10 +27,49 @@ def save_image(payload: ImagePayload):
 
     header, encoded = payload.image.split(",", 1)
     
-    query(encoded)
+    data = query(encoded)
+
+    # print("START OF NAME:", data[data.find("\"product_name\":"):])
+    # print("START OF GRADE:", data[data.find("\"overall_grade\":"):])
+    # print("START OF SUMMARY:", data[data.find("\"summary\":"):])
+    # print("START OF FLAG:", data[data.find("\"flagged_ingredients\":"):])
+    product_name = data[data.find(":") + 2:data.find(',')]
+    data = data[data.find(',') + 1:]
+
+    overall_grade = data[data.find(":") + 2:data.find(',')]
+    data = data[data.find(',') + 1:]
+
+    summary = data[data.find(":") + 2:data.find(',')]
+    data = data[data.find(',') + 1:]
+
+    temp = data[data.find(":") + 2:]
+    flagged_ingredients = []
+
+    # while temp.find('}') != -1:
+    #     name = temp[temp.find(":") + 2:temp.find(',')]
+    #     temp = temp[temp.find(',') + 1:]
+
+    #     severity = temp[temp.find(":") + 2:temp.find(',')]
+    #     temp = temp[temp.find(',') + 1:]
+
+    #     reason = temp[temp.find(":") + 2:temp.find(',')]
+    #     temp = temp[temp.find('}') + 1:]
+
+    #     print(name)
+    #     print(severity)
+    #     print(reason)
+
+
+    print(product_name)
+    print(overall_grade)
+    print(summary)
+    print(temp)
 
     return {
-        "message": "Image saved",
+        "product_name": product_name,
+        "overall_grade": overall_grade,
+        "summary": summary,
+        "flagged_ingredients": temp,
     }
 
 def query(image_data):
@@ -57,6 +96,7 @@ def query(image_data):
     )
 
     print(response.content[0].text)
+    return response.content[0].text
 
 # Set up variables
 load_dotenv(override=True)
