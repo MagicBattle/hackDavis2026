@@ -31,10 +31,27 @@ function Home() {
   ];
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-[#f4f3f8]">
       <Header />
 
       <main className="flex flex-col gap-8 px-6 py-8 grow">
+
+        <div className="bg-purple-50 rounded-2xl px-8 py-10 shadow-sm flex flex-col items-center text-center gap-3">
+          <span className="text-4xl">🔍</span>
+          <h1 className="text-3xl font-black text-indigo-900">Know what's in your food</h1>
+          <p className="text-slate-500 max-w-md">
+            Flip over the label, point your camera, and Flipit breaks down every ingredient and flags every
+            harmful additives brands hide in plain sight.
+          </p>
+          <div className="flex gap-6 mt-2 text-sm text-slate-600">
+            <span>📸 Scan a label</span>
+            <span>→</span>
+            <span>🧪 AI analyzes ingredients</span>
+            <span>→</span>
+            <span>✅ Get a safety grade</span>
+          </div>
+        </div>
+
         <Link to="/scan" className="self-center bg-indigo-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-indigo-700">
           Scan a Label
         </Link>
@@ -52,6 +69,7 @@ function Home() {
           ))}
         </div>
 
+        <h2 className="text-xl font-bold text-slate-800">Ingredients to watch out for</h2>
         <div className="flex flex-row flex-wrap gap-2">
           <Facts paragraph="Red 40" color="text-red-700 border-red-300" />
           <Facts paragraph="Yellow 5" color="text-yellow-600 border-yellow-300" />
