@@ -1,4 +1,4 @@
-import {Utensils, Search, Eye} from "lucide-react"
+import {Camera, Utensils, Search, Eye} from "lucide-react"
 import { Link } from 'react-router-dom'
 import Header from './Header'
 import Footer from './Footer'
@@ -35,7 +35,6 @@ function Home() {
       <Header />
 
       <main className="flex flex-col gap-8 px-6 py-8 grow">
-
         <div className="bg-purple-50 rounded-2xl px-8 py-10 shadow-sm flex flex-col items-center text-center gap-3">
           <span className="text-4xl">🔍</span>
           <h1 className="text-3xl font-black text-indigo-900">Know what's in your food</h1>
@@ -52,9 +51,11 @@ function Home() {
           </div>
         </div>
 
-        <Link to="/scan" className="self-center bg-indigo-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-indigo-700">
-          Scan a Label
-        </Link>
+        <div className="flex justify-center">
+          <Link to="/scan" className="group relative flex h-50 w-50 items-center justify-center rounded-[32px] bg-purple-50 transition hover:scale-105 hover:shadow-lg">
+            <Camera size={50} className="text-purple-500 transition group-hover:text-purple-400" />
+          </Link>
+        </div>
 
         <div className="flex flex-col gap-4">
           {cardData.map((card) => (
