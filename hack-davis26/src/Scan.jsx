@@ -3,27 +3,34 @@ import React from 'react'
 import Webcam from 'react-webcam'
 
 async function sendImage(imageSrc) {
-  console.log(imageSrc);
-  const response = await fetch("http://localhost:8000/save-image", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      image: imageSrc,
-    }),
-  });
+  return {text:"Here is text LOL"};
+  try {
+    const response = await fetch("http://localhost:8000/save-image", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        image: imageSrc,
+      }),
+    });
 
+    return await response.json();
+  } catch(error) {
+    console.error("SendImage: ",error);
+  }
+  return null;
 }
 
 function Scan() {
   const webcamRef = React.useRef(null);
   const [imageSrc, setImageSrc] = useState(null);
+  const [json, setJSON] = useState(null);
   const capture = React.useCallback(
     () => {
       const img = webcamRef.current.getScreenshot()
       setImageSrc(img);
-      sendImage(img);
+      setJSON(sendImage(img));
     },
     [webcamRef]
   );
@@ -42,8 +49,15 @@ function Scan() {
         Take photo
       </button>
       {imageSrc && <img src={imageSrc} className="rounded-xl border border-gray-200 shadow" />}
+      {json && FormatResponse(json)}
     </div>
   );
 }
+
+// Json might be null
+function FormatResponse(json) {
+  return <p> Yahoo </p>
+}
+
 
 export default Scan
