@@ -21,6 +21,13 @@ app.add_middleware(
 class ImagePayload(BaseModel):
     image: str
 
+class HistoryPayload(BaseModel):
+    message : str
+
+@app.post("/get-history")
+def get_history(payload: HistoryPayload):
+    return history
+
 @app.post("/save-image")
 def save_image(payload: ImagePayload):
     import json
@@ -29,7 +36,6 @@ def save_image(payload: ImagePayload):
     if data == "ERROR":
         return {}
 
- 
     product_name = data[data.find(":") + 2:data.find(',')]
     data = data[data.find(',') + 1:]
 
