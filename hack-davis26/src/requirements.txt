@@ -2,11 +2,17 @@
 anthropic
 python-dotenv
 opencv-python
+fastapi
+uvicorn
 
 # Python setup (Mac)
 python3 -m venv .venv
 source .venv/bin/activate
-pip install anthropic python-dotenv opencv-python
+pip install anthropic python-dotenv opencv-python fastapi uvicorn
+
+# Run the server (must be inside src/ folder)
+cd src
+uvicorn get_text:app --reload
 
 # npm packages
 react-webcam
