@@ -1,9 +1,8 @@
-# Python packages
+# Python packages (also used by Render for deployment)
 anthropic
 python-dotenv
-opencv-python
 fastapi
-uvicorn
+uvicorn[standard]
 
 # Python setup (Mac)
 python3 -m venv .venv

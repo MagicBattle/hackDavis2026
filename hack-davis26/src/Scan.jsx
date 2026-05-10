@@ -1,13 +1,15 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import React from 'react'
 import Webcam from 'react-webcam'
 import Header from './Header'
 import Footer from './Footer'
 import {Ban} from 'lucide-react'
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 async function sendImage(imageSrc, setJSON) {
   try {
-    const response = await fetch("http://localhost:8000/save-image", {
+    const response = await fetch(`${API_URL}/save-image`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ image: imageSrc }),
@@ -80,12 +82,23 @@ function Scan() {
   const [json, setJSON] = useState(null);
   const [allowed, setAllowed] = useState(true);
   const [disabled, setDisabled] = useState(false);
+  const [history, setHistory] = useState({});
+
+  const fetchHistory = () => {
+    fetch(`${API_URL}/get-history`)
+      .then(r => r.json())
+      .then(data => setHistory(data))
+      .catch(() => {});
+  };
+
+  useEffect(() => { fetchHistory(); }, []);
 
   const capture = React.useCallback(async () => {
     setDisabled(true);
     const img = webcamRef.current.getScreenshot();
     setImageSrc(img);
     await sendImage(img, setJSON);
+    fetchHistory();
     setDisabled(false);
   }, [webcamRef]);
 
@@ -123,6 +136,23 @@ function Scan() {
           >
             {!disabled ? "Take Photo" : "Processing..."}
           </button>
+
+          {Object.keys(history).length > 0 && (
+            <div className="w-full max-w-xl flex flex-col gap-3">
+              <h2 className="text-xl font-bold text-indigo-900">Scan History</h2>
+              {["A", "B", "C", "D", "F"].map(grade => history[grade] && (
+                <div key={grade} className="flex flex-col gap-2">
+                  <span className={`font-black text-lg ${gradeColor[grade]}`}>{grade}</span>
+                  {history[grade].map((item, i) => (
+                    <div key={i} className="flex items-center justify-between bg-purple-50 rounded-xl px-4 py-3 border border-purple-200">
+                      <span className="text-slate-700 font-medium">{item.product_name}</span>
+                      <span className={`font-black text-xl ${gradeColor[grade]}`}>{grade}</span>
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
+          )}
         </main>
         <Footer />
       </div>

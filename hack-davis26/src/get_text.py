@@ -21,11 +21,8 @@ app.add_middleware(
 class ImagePayload(BaseModel):
     image: str
 
-class HistoryPayload(BaseModel):
-    message : str
-
-@app.post("/get-history")
-def get_history(payload: HistoryPayload):
+@app.get("/get-history")
+def get_history():
     return history
 
 @app.post("/save-image")
@@ -81,10 +78,11 @@ def save_image(payload: ImagePayload):
         "healthy_swap": healthy_swap,
     }
 
-    if overall_grade not in history:
-        history[overall_grade] = [parsed_data]
+    grade_key = overall_grade.strip('"').strip()
+    if grade_key not in history:
+        history[grade_key] = [parsed_data]
     else:
-        history[overall_grade].append(parsed_data)
+        history[grade_key].append(parsed_data)
 
     return parsed_data
 
