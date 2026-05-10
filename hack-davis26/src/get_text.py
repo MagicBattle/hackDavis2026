@@ -36,8 +36,8 @@ def save_image(payload: ImagePayload):
     overall_grade = data[data.find(":") + 2:data.find(',')]
     data = data[data.find(',') + 1:]
 
-    summary = data[data.find(":") + 2:data.find(',')]
-    data = data[data.find(',') + 1:]
+    summary = data[data.find(":") + 3:data.find('"', data.find(":")+ 3)]
+    data = data[data.find('"', data.find(":")+ 3):]
 
     temp = data[data.find(":") + 2:data.find(']')]
     data = data[data.find(']') + 2:]
