@@ -5,7 +5,7 @@ import Webcam from 'react-webcam'
 
 
 
-async function sendImage(imageSrc) {
+async function sendImage(imageSrc,setJSON) {
   try {
     const response = await fetch("http://localhost:8000/save-image", {
       method: "POST",
@@ -17,11 +17,12 @@ async function sendImage(imageSrc) {
       }),
     });
 
-    return await response.json();
+    const json =  await response.json();
+    setJSON(json);
   } catch(error) {
     console.error("SendImage: ",error);
+    setJSON(null);
   }
-  return null;
 }
 
 async function checkpermission() {
@@ -33,7 +34,6 @@ async function checkpermission() {
     
     return true;
   }catch(err) {
-    console.log("Dont have permission");
     return false;
   }
 }
@@ -56,7 +56,7 @@ function Scan() {
     () => {
         const img = webcamRef.current.getScreenshot()
         setImageSrc(img);
-        setJSON(sendImage(img));
+        sendImage(img,setJSON);
 
     },
     [webcamRef]
@@ -86,7 +86,7 @@ function Scan() {
 
 // Json might be null
 function FormatResponse(json) {
-  return console.log(json);
+  console.log(json);
 }
 
 
