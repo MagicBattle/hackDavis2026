@@ -29,6 +29,9 @@ def save_image(payload: ImagePayload):
     
     data = query(encoded)
 
+    if data == "ERROR":
+        return {}
+
     product_name = data[data.find(":") + 2:data.find(',')]
     data = data[data.find(',') + 1:]
 
