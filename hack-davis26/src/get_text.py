@@ -23,59 +23,13 @@ class ImagePayload(BaseModel):
 
 @app.post("/save-image")
 def save_image(payload: ImagePayload):
-    os.makedirs("labels", exist_ok=True)
-
+    import json
     header, encoded = payload.image.split(",", 1)
-    
-    data = query(encoded)
-
-    if data == "ERROR":
+    raw = query(encoded)
+    try:
+        return json.loads(raw)
+    except json.JSONDecodeError:
         return {}
-
-    product_name = data[data.find(":") + 2:data.find(',')]
-    data = data[data.find(',') + 1:]
-
-    overall_grade = data[data.find(":") + 2:data.find(',')]
-    data = data[data.find(',') + 1:]
-
-    summary = data[data.find(":") + 2:data.find(',')]
-    data = data[data.find(',') + 1:]
-
-    temp = data[data.find(":") + 2:data.find(']')]
-    data = data[data.find(']') + 2:]
-    flagged_ingredients = []
-
-    total_ingredients = data[data.find(":") + 2:data.find(',')]
-    data = data[data.find(',') + 1:]
-
-    healthy_swap = data[data.find(":") + 2:data.find('}')]
-
-    while temp.find('}') != -1:
-        name = temp[temp.find(":") + 2:temp.find(',')]
-        temp = temp[temp.find(',') + 1:]
-
-        severity = temp[temp.find(":") + 2:temp.find(',')]
-        temp = temp[temp.find(',') + 1:]
-
-        reason = temp[temp.find(":") + 2:temp.find('}')]
-        temp = temp[temp.find('}') + 2:]
-
-        flagged_ingredients.append(
-            {
-                "name": name,
-                "severity": severity,
-                "reason": reason,
-            }
-        )
-
-    return {
-        "product_name": product_name,
-        "overall_grade": overall_grade,
-        "summary": summary,
-        "flagged_ingredients": flagged_ingredients,
-        "total_ingredients": total_ingredients,
-        "healthy_swap": healthy_swap,
-    }
 
 def query(image_data):
     response = client.messages.create(
