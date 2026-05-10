@@ -29,10 +29,6 @@ def save_image(payload: ImagePayload):
     
     data = query(encoded)
 
-    # print("START OF NAME:", data[data.find("\"product_name\":"):])
-    # print("START OF GRADE:", data[data.find("\"overall_grade\":"):])
-    # print("START OF SUMMARY:", data[data.find("\"summary\":"):])
-    # print("START OF FLAG:", data[data.find("\"flagged_ingredients\":"):])
     product_name = data[data.find(":") + 2:data.find(',')]
     data = data[data.find(',') + 1:]
 
@@ -42,34 +38,40 @@ def save_image(payload: ImagePayload):
     summary = data[data.find(":") + 2:data.find(',')]
     data = data[data.find(',') + 1:]
 
-    temp = data[data.find(":") + 2:]
+    temp = data[data.find(":") + 2:data.find(']')]
+    data = data[data.find(']') + 2:]
     flagged_ingredients = []
 
-    # while temp.find('}') != -1:
-    #     name = temp[temp.find(":") + 2:temp.find(',')]
-    #     temp = temp[temp.find(',') + 1:]
+    total_ingredients = data[data.find(":") + 2:data.find(',')]
+    data = data[data.find(',') + 1:]
 
-    #     severity = temp[temp.find(":") + 2:temp.find(',')]
-    #     temp = temp[temp.find(',') + 1:]
+    healthy_swap = data[data.find(":") + 2:data.find('}')]
 
-    #     reason = temp[temp.find(":") + 2:temp.find(',')]
-    #     temp = temp[temp.find('}') + 1:]
+    while temp.find('}') != -1:
+        name = temp[temp.find(":") + 2:temp.find(',')]
+        temp = temp[temp.find(',') + 1:]
 
-    #     print(name)
-    #     print(severity)
-    #     print(reason)
+        severity = temp[temp.find(":") + 2:temp.find(',')]
+        temp = temp[temp.find(',') + 1:]
 
+        reason = temp[temp.find(":") + 2:temp.find('}')]
+        temp = temp[temp.find('}') + 2:]
 
-    print(product_name)
-    print(overall_grade)
-    print(summary)
-    print(temp)
+        flagged_ingredients.append(
+            {
+                "name": name,
+                "severity": severity,
+                "reason": reason,
+            }
+        )
 
     return {
         "product_name": product_name,
         "overall_grade": overall_grade,
         "summary": summary,
-        "flagged_ingredients": temp,
+        "flagged_ingredients": flagged_ingredients,
+        "total_ingredients": total_ingredients,
+        "healthy_swap": healthy_swap,
     }
 
 def query(image_data):
@@ -95,7 +97,6 @@ def query(image_data):
         ],
     )
 
-    print(response.content[0].text)
     return response.content[0].text
 
 # Set up variables
