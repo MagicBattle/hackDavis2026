@@ -40,7 +40,7 @@ function FormatResponse({ json }) {
   const grade = json.overall_grade?.replace(/['"]/g, "");
   const productName = json.product_name?.replace(/['"]/g, "");
   const summary = json.summary?.replace(/['"]/g, "");
-  const healthySwap = json.healthier_swap?.replace(/['"]/g, "");
+  const healthySwap = json.healthy_swap?.replace(/['"]/g, "");
 
   return (
     <div className="flex flex-col gap-4 flex-1">
@@ -142,8 +142,8 @@ function Scan() {
               <p className="text-slate-500 max-w-sm">Make sure the label is clearly visible and try again.</p>
             </div>
           ) : (
-            <div className="flex flex-row gap-6 items-start">
-              <img src={imageSrc} className="rounded-xl border border-purple-200 shadow-md w-64 shrink-0" />
+            <div className="flex flex-col gap-6">
+              <img src={imageSrc} className="rounded-xl border border-purple-200 shadow-md w-64" />
               {!json
                 ? <p className="text-slate-500 text-lg">Analyzing...</p>
                 : <FormatResponse json={json} />

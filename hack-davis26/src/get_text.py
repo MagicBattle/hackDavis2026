@@ -25,10 +25,11 @@ class ImagePayload(BaseModel):
 def save_image(payload: ImagePayload):
     import json
     header, encoded = payload.image.split(",", 1)
-    raw = query(encoded)
-    if raw == "ERROR":
-        return { "error": "error" }
+    data = query(encoded)
+    if data == "ERROR":
+        return {}
 
+ 
     product_name = data[data.find(":") + 2:data.find(',')]
     data = data[data.find(',') + 1:]
 
@@ -79,7 +80,7 @@ def save_image(payload: ImagePayload):
     else:
         history[overall_grade].append(parsed_data)
 
-    return parsed_data, history
+    return parsed_data
 
 def query(image_data):
     response = client.messages.create(
