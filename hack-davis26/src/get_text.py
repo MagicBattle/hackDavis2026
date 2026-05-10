@@ -23,13 +23,12 @@ class ImagePayload(BaseModel):
 
 @app.post("/save-image")
 def save_image(payload: ImagePayload):
-    os.makedirs("labels", exist_ok=True)
-
+    import json
     header, encoded = payload.image.split(",", 1)
-    
-    data = query(encoded)
-
-    if data == "ERROR":
+    raw = query(encoded)
+    try:
+        return json.loads(raw)
+    except json.JSONDecodeError:
         return {}
 
     product_name = data[data.find(":") + 2:data.find(',')]
