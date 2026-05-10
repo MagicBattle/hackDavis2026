@@ -21,10 +21,6 @@ app.add_middleware(
 class ImagePayload(BaseModel):
     image: str
 
-@app.get("/get-history")
-def get_history():
-    return history
-
 @app.post("/save-image")
 def save_image(payload: ImagePayload):
     import json
@@ -78,12 +74,6 @@ def save_image(payload: ImagePayload):
         "healthy_swap": healthy_swap,
     }
 
-    grade_key = overall_grade.strip('"').strip()
-    if grade_key not in history:
-        history[grade_key] = [parsed_data]
-    else:
-        history[grade_key].append(parsed_data)
-
     return parsed_data
 
 def query(image_data):
@@ -116,7 +106,6 @@ load_dotenv(override=True)
 
 key = os.environ.get('claude_key')
 client = anthropic.Anthropic(api_key=key)
-history = {}
 
 PROMPT = """
 First check if the image provided contains a food label. If it does not return ERROR.
