@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import React from 'react'
 import Webcam from 'react-webcam'
 import Header from './Header'
@@ -82,41 +82,25 @@ function Scan() {
   const [json, setJSON] = useState(null);
   const [allowed, setAllowed] = useState(true);
   const [disabled, setDisabled] = useState(false);
-  const [history, setHistory] = useState(() => {
-    try {
-      return JSON.parse(localStorage.getItem('scan_history')) || {};
-    } catch { return {}; }
-  });
+  const [history, setHistory] = useState({});
 
-  const saveHistory = (updated) => {
-    setHistory(updated);
-    localStorage.setItem('scan_history', JSON.stringify(updated));
+  const fetchHistory = () => {
+    fetch(`${API_URL}/get-history`)
+      .then(r => r.json())
+      .then(data => setHistory(data))
+      .catch(() => {});
   };
+
+  useEffect(() => { fetchHistory(); }, []);
 
   const capture = React.useCallback(async () => {
     setDisabled(true);
     const img = webcamRef.current.getScreenshot();
     setImageSrc(img);
-    await sendImage(img, (result) => {
-      setJSON(result);
-      if (result && Object.keys(result).length > 0) {
-        const grade = result.overall_grade?.replace(/['"]/g, "").trim();
-        if (grade) {
-          const updated = { ...history };
-          if (!updated[grade]) updated[grade] = [];
-          updated[grade] = [...updated[grade], result];
-          const total = Object.values(updated).reduce((s, v) => s + v.length, 0);
-          if (total > 15) {
-            const largest = Object.keys(updated).reduce((a, b) => updated[a].length > updated[b].length ? a : b);
-            updated[largest] = updated[largest].slice(1);
-            if (!updated[largest].length) delete updated[largest];
-          }
-          saveHistory(updated);
-        }
-      }
-    });
+    await sendImage(img, setJSON);
+    fetchHistory();
     setDisabled(false);
-  }, [webcamRef, history]);
+  }, [webcamRef]);
 
   const reset = () => {
     setImageSrc(null);
@@ -159,8 +143,8 @@ function Scan() {
                 <h2 className="text-xl font-bold text-indigo-900">Scan History</h2>
                 <button
                   onClick={() => {
-                    localStorage.removeItem('scan_history');
-                    setHistory({});
+                    fetch(`${API_URL}/clear-history`, { method: "DELETE" })
+                      .then(() => setHistory({}));
                   }}
                   className="text-sm text-red-500 hover:text-red-700 font-medium"
                 >
