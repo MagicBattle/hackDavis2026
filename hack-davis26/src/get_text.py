@@ -38,8 +38,13 @@ def save_image(payload: ImagePayload):
     if raw.strip() == "ERROR":
         return {}
 
+    start = raw.find("{")
+    end = raw.rfind("}") + 1
+    if start == -1 or end == 0:
+        return {}
+
     try:
-        parsed_data = json.loads(raw)
+        parsed_data = json.loads(raw[start:end])
     except json.JSONDecodeError:
         return {}
 
