@@ -42,7 +42,7 @@ function FormatResponse({ json }) {
   const grade = json.overall_grade?.replace(/['"]/g, "");
   const productName = json.product_name?.replace(/['"]/g, "");
   const summary = json.summary?.replace(/['"]/g, "");
-  const healthySwap = json.healthy_swap?.replace(/['"]/g, "");
+  const healthySwap = json.healthier_swap?.replace(/['"]/g, "");
 
   return (
     <div className="flex flex-col gap-4 flex-1">

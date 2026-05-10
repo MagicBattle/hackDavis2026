@@ -34,56 +34,16 @@ def clear_history():
 def save_image(payload: ImagePayload):
     import json
     header, encoded = payload.image.split(",", 1)
-    data = query(encoded)
-    if data == "ERROR":
+    raw = query(encoded)
+    if raw.strip() == "ERROR":
         return {}
 
-    product_name = data[data.find(":") + 2:data.find(',')]
-    data = data[data.find(',') + 1:]
+    try:
+        parsed_data = json.loads(raw)
+    except json.JSONDecodeError:
+        return {}
 
-    overall_grade = data[data.find(":") + 2:data.find(',')]
-    data = data[data.find(',') + 1:]
-
-    summary = data[data.find(":") + 3:data.find('"', data.find(":")+ 3)]
-    data = data[data.find('"', data.find(":")+ 3):]
-
-    temp = data[data.find(":") + 2:data.find(']')]
-    data = data[data.find(']') + 2:]
-    flagged_ingredients = []
-
-    total_ingredients = data[data.find(":") + 2:data.find(',')]
-    data = data[data.find(',') + 1:]
-
-    healthy_swap = data[data.find(":") + 2:data.find('}')]
-
-    while temp.find('}') != -1:
-        name = temp[temp.find(":") + 2:temp.find(',')]
-        temp = temp[temp.find(',') + 1:]
-
-        severity = temp[temp.find(":") + 2:temp.find(',')]
-        temp = temp[temp.find(',') + 1:]
-
-        reason = temp[temp.find(":") + 2:temp.find('}')]
-        temp = temp[temp.find('}') + 2:]
-
-        flagged_ingredients.append(
-            {
-                "name": name,
-                "severity": severity,
-                "reason": reason,
-            }
-        )
-
-    parsed_data = {
-        "product_name": product_name,
-        "overall_grade": overall_grade,
-        "summary": summary,
-        "flagged_ingredients": flagged_ingredients,
-        "total_ingredients": total_ingredients,
-        "healthy_swap": healthy_swap,
-    }
-
-    grade_key = overall_grade.strip('"').strip()
+    grade_key = parsed_data.get("overall_grade", "").strip('"').strip()
     if grade_key not in history:
         history[grade_key] = [parsed_data]
     else:
