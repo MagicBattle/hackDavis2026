@@ -68,7 +68,7 @@ def save_image(payload: ImagePayload):
             }
         )
 
-    return {
+    parsed_data = {
         "product_name": product_name,
         "overall_grade": overall_grade,
         "summary": summary,
@@ -76,6 +76,13 @@ def save_image(payload: ImagePayload):
         "total_ingredients": total_ingredients,
         "healthy_swap": healthy_swap,
     }
+
+    if overall_grade not in history:
+        history[overall_grade] = [parsed_data]
+    else:
+        history[overall_grade].append(parsed_data)
+
+    return parsed_data
 
 def query(image_data):
     response = client.messages.create(
@@ -107,6 +114,7 @@ load_dotenv(override=True)
 
 key = os.environ.get('claude_key')
 client = anthropic.Anthropic(api_key=key)
+history = {}
 
 PROMPT = """
 First check if the image provided contains a food label. If it does not return ERROR.
