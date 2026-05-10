@@ -3,6 +3,7 @@ import React from 'react'
 import Webcam from 'react-webcam'
 import Header from './Header'
 import Footer from './Footer'
+import {Ban} from 'lucide-react'
 
 async function sendImage(imageSrc, setJSON) {
   try {
@@ -136,7 +137,7 @@ function Scan() {
         {json && Object.keys(json).length === 0
           ? (
             <div className="flex flex-col items-center gap-4 py-12 text-center">
-              <span className="text-5xl">🚫</span>
+              <span><Ban size={50} className="text-purple-500"/></span>
               <h2 className="text-2xl font-bold text-slate-800">No food label detected</h2>
               <p className="text-slate-500 max-w-sm">Make sure the label is clearly visible and try again.</p>
             </div>
