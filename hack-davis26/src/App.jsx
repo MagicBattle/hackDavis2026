@@ -4,7 +4,7 @@ import Scan from './Scan'
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/hackDavis2026">
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/scan" element={<Scan />} />
