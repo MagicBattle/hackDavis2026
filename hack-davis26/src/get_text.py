@@ -26,10 +26,8 @@ def save_image(payload: ImagePayload):
     import json
     header, encoded = payload.image.split(",", 1)
     raw = query(encoded)
-    try:
-        return json.loads(raw)
-    except json.JSONDecodeError:
-        return {}
+    if raw == "ERROR":
+        return { "error": "error" }
 
     product_name = data[data.find(":") + 2:data.find(',')]
     data = data[data.find(',') + 1:]
@@ -81,7 +79,7 @@ def save_image(payload: ImagePayload):
     else:
         history[overall_grade].append(parsed_data)
 
-    return parsed_data
+    return parsed_data, history
 
 def query(image_data):
     response = client.messages.create(
