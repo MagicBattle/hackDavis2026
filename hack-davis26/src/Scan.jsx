@@ -51,12 +51,16 @@ function Scan() {
   const [imageSrc, setImageSrc] = useState(null);
   const [json, setJSON] = useState(null);
   const [allowed, setAllowed] = useState(true);
+  const [disabled, setDisabled] = useState(false);
 
   const capture = React.useCallback(
-    () => {
-        const img = webcamRef.current.getScreenshot()
+    async () => {
+        console.log("pressed");
+        setDisabled(true);
+        const img = webcamRef.current.getScreenshot();
         setImageSrc(img);
-        sendImage(img,setJSON);
+        await sendImage(img,setJSON);
+        setDisabled(false);
 
     },
     [webcamRef]
@@ -74,9 +78,11 @@ function Scan() {
     }
       <button
         onClick={capture}
-        className="bg-indigo-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-indigo-700"
+        disabled={disabled}
+        className= {!disabled ? "bg-indigo-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-indigo-700":
+          "bg-indigo-400 text-white px-6 py-3 rounded-xl font-semibold"}
       >
-        Take photo
+        {!disabled? "Take Photo" : "Processing..."}
       </button>
       {imageSrc && <img src={imageSrc} className="rounded-xl border border-gray-200 shadow" />}
       {json && FormatResponse(json)}
